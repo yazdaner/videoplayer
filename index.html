@@ -1,13 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-</head>
-<body>
-        <video id="videoPlayer">
-            <source src="http://127.0.0.1:8000/ads" type="video/mp4">
-        </video>
-</body>
+    <link rel="stylesheet" href="./assets/css/main.css" />
+    <link rel="stylesheet" href="./assets/css/fontawesome.css" />
+  </head>
+  <body>
+    <div class="video-box">
+      <i class="fa-solid fa-reply"></i>
+      <video id="videoPlayer"></video>
+      <div class="screenshots-box"></div>
+      <div class="controller">
+        <div class="video-progress"></div>
+        <div class="tools"></div>
+      </div>
+    </div>
+    <script src="./assets/js/script.js"></script>
+  </body>
 </html>
