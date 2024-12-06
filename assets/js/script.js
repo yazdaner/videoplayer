@@ -100,10 +100,17 @@ changeVolum = function (volume) {
 
 fullScreen.addEventListener('click',async function(){
     if(document.fullscreenElement){
-
+      await document.exitFullscreen();
+      fullScreen.classList.add('fa-expand');
+      fullScreen.classList.remove('fa-compress');
     }else{
       await videoBox.requestFullscreen();
-      fullScreen.classList.add('fa-compress')
-      fullScreen.classList.remove('fa-expand')
+      fullScreen.classList.add('fa-compress');
+      fullScreen.classList.remove('fa-expand');
     }
+});
+
+
+smallPlayer.addEventListener('click',function(){
+  videoBox.classList.add('video-small-box');
 });

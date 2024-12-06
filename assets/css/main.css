@@ -128,3 +128,26 @@ input[type="range"]::-webkit-slider-thumb {
   cursor: pointer;
   display: none;
 }
+
+.video-small-box{
+  position: fixed;
+  z-index: 1;
+  width: 350px;
+  height: 230px;
+  background-color: white;
+  bottom: 30px;
+  right: 25px;
+  border:1px solid rgba(0, 0, 0, 0.62);
+}
+
+.video-small-box .tools{
+  display: none;
+}
+
+.video-small-box .controller{
+  height: 20px;
+}
+
+.video-small-box #larg-player-icon{
+  display: block;
+}
