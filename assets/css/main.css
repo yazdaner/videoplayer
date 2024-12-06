@@ -11,6 +11,7 @@ body {
   width: 70%;
   position: relative;
   direction: ltr !important;
+  border: 1px solid rgba(128, 128, 128, 0.35);
 }
 
 #videoPlayer {
@@ -114,6 +115,16 @@ input[type="range"]::-webkit-slider-thumb {
   display: flex;
 }
 
-#volumeIcon{
-    padding:0 7px;
+#volumeIcon {
+  width: 30px;
+}
+
+#larg-player-icon {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  font-size: 18px;
+  color: white;
+  cursor: pointer;
+  display: none;
 }

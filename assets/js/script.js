@@ -8,6 +8,10 @@ const videoDuration = document.querySelector(".video-duration");
 const volume = document.querySelector("#volume");
 const volumeIcon = document.querySelector("#volumeIcon");
 const sliderProgress = document.querySelector(".slider-progress");
+const fullScreen = document.querySelector("#fullScreen");
+const smallPlayer = document.querySelector("#smallPlayer");
+const videoBox = document.querySelector(".video-box");
+
 loadAds = function () {
   video.setAttribute("src", "http://localhost:8000/ads");
   video.play();
@@ -92,3 +96,14 @@ changeVolum = function (volume) {
     volumeIcon.className = "fa-solid fa-volume-xmark";
   }
 };
+
+
+fullScreen.addEventListener('click',async function(){
+    if(document.fullscreenElement){
+
+    }else{
+      await videoBox.requestFullscreen();
+      fullScreen.classList.add('fa-compress')
+      fullScreen.classList.remove('fa-expand')
+    }
+});
