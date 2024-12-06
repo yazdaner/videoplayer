@@ -9,12 +9,35 @@
   </head>
   <body>
     <div class="video-box">
-      <i class="fa-solid fa-reply"></i>
+      <i class="fa-solid fa-reply" id="larg-player-icon"></i>
       <video id="videoPlayer"></video>
       <div class="screenshots-box"></div>
       <div class="controller">
-        <div class="video-progress"></div>
-        <div class="tools"></div>
+        <div class="video-progress">
+          <div class="progress-bar"></div>
+        </div>
+        <div class="tools">
+          <div class="d-flex align-items-center">
+            <i class="fa-solid fa-pause" id="palyButton"></i>
+            <div class="px-15">
+              <span class="video-current-time"></span> /
+              <span class="video-duration"></span>
+            </div>
+            <i class="fa-solid fa-volume-high px-10" id="volumeIcon"></i>
+            <div class="range-slider">
+              <div class="slider-progress"></div>
+              <input
+                type="range"
+                id="volume"
+                class="volume"
+                value="1"
+                min="0"
+                max="1"
+                step="0.1"
+              />
+            </div>
+          </div>
+        </div>
       </div>
     </div>
     <script src="./assets/js/script.js"></script>

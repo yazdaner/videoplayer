@@ -7,7 +7,7 @@ app.get("/ads", function (request, response) {
   let range = request.headers.range;
   if (!range) {
     range = "bytes=0-";
-  // response.status(400).send("bad request");
+    // response.status(400).send("bad request");
   }
   const videoPath = "../videos/a.mp4";
   const videoSize = fs.statSync(videoPath).size;
@@ -25,7 +25,6 @@ app.get("/ads", function (request, response) {
   response.writeHead(206, headers);
   const videoStream = fs.createReadStream(videoPath, { start, end });
   videoStream.pipe(response);
-  
 });
 
 app.listen(8000);
