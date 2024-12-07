@@ -11,6 +11,7 @@ const sliderProgress = document.querySelector(".slider-progress");
 const fullScreen = document.querySelector("#fullScreen");
 const smallPlayer = document.querySelector("#smallPlayer");
 const videoBox = document.querySelector(".video-box");
+const hls = new Hls();
 
 loadAds = function () {
   video.setAttribute("src", "http://localhost:8000/ads");
@@ -97,20 +98,30 @@ changeVolum = function (volume) {
   }
 };
 
-
-fullScreen.addEventListener('click',async function(){
-    if(document.fullscreenElement){
-      await document.exitFullscreen();
-      fullScreen.classList.add('fa-expand');
-      fullScreen.classList.remove('fa-compress');
-    }else{
-      await videoBox.requestFullscreen();
-      fullScreen.classList.add('fa-compress');
-      fullScreen.classList.remove('fa-expand');
-    }
+fullScreen.addEventListener("click", async function () {
+  if (document.fullscreenElement) {
+    await document.exitFullscreen();
+    fullScreen.classList.add("fa-expand");
+    fullScreen.classList.remove("fa-compress");
+  } else {
+    await videoBox.requestFullscreen();
+    fullScreen.classList.add("fa-compress");
+    fullScreen.classList.remove("fa-expand");
+  }
 });
 
-
-smallPlayer.addEventListener('click',function(){
-  videoBox.classList.add('video-small-box');
+smallPlayer.addEventListener("click", function () {
+  videoBox.classList.add("video-small-box");
 });
+
+video.onended = function () {
+  loadMainVideo();
+};
+
+loadMainVideo = function () {
+  if (Hls.isSupported()) {
+    hls.loadSource('http://localhost/videoplayer/videos/480/480_out.m3u8');
+    hls.attachMedia(video);
+    video.play();
+  }
+};

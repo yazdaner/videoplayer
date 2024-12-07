@@ -1,4 +1,3 @@
-const { log } = require("console");
 const express = require("express");
 const fs = require("fs");
 const app = express();
@@ -7,9 +6,9 @@ app.get("/ads", function (request, response) {
   let range = request.headers.range;
   if (!range) {
     range = "bytes=0-";
-    // response.status(400).send("bad request");
   }
-  const videoPath = "../videos/a.mp4";
+
+  const videoPath = "../videos/ads.mp4";
   const videoSize = fs.statSync(videoPath).size;
   const chunkSize = 10 ** 6;
   const start = Number(range.replace(/\D/g, ""));
