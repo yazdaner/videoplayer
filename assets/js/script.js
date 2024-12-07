@@ -1,4 +1,5 @@
 let showAds = true;
+let screenshotHeight = 0;
 
 const video = document.getElementById("videoPlayer");
 const playButton = document.getElementById("palyButton");
@@ -11,6 +12,9 @@ const sliderProgress = document.querySelector(".slider-progress");
 const fullScreen = document.querySelector("#fullScreen");
 const smallPlayer = document.querySelector("#smallPlayer");
 const videoBox = document.querySelector(".video-box");
+const screenshotsBox = document.querySelector(".screenshots-box");
+const videoProgress = document.querySelector(".video-progress");
+
 const hls = new Hls();
 
 loadAds = function () {
@@ -120,8 +124,83 @@ video.onended = function () {
 
 loadMainVideo = function () {
   if (Hls.isSupported()) {
-    hls.loadSource('http://localhost/videoplayer/videos/480/480_out.m3u8');
+    hls.loadSource("http://localhost/videoplayer/videos/480/480_out.m3u8");
     hls.attachMedia(video);
     video.play();
   }
+  getScreenshotsVideo();
 };
+
+getScreenshotsVideo = function () {
+  axios
+    .get("http://localhost/videoplayer/screen.png", { responseType: "blob" })
+    .then((response) => {
+      const reader = new window.FileReader();
+      reader.readAsDataURL(response.data);
+      reader.onload = function () {
+        const imageDataUrl = reader.result;
+        getImageSize(imageDataUrl, function (imageWidth, imageHeight) {
+          const duration = video.duration;
+          console.log(duration);
+          let n = Math.ceil(duration / 20);
+          let row = Math.ceil(n / 5);
+          let h = imageHeight / row;
+          screenshotsBox.style.height = h + "px";
+          screenshotHeight = h;
+        });
+        screenshotsBox.style.backgroundImage = 'url("' + imageDataUrl + '")';
+      };
+    })
+    .catch((e) => {});
+};
+
+getImageSize = function (imageUrl, callback) {
+  const image = new Image();
+  image.onload = function () {
+    callback(this.naturalWidth, this.naturalHeight);
+  };
+  image.src = imageUrl;
+};
+
+videoProgress.addEventListener("mouseenter", function (e) {
+  showScreen(e);
+});
+
+videoProgress.addEventListener("mousemove", function (e) {
+  showScreen(e);
+});
+
+showScreen = function (e) {
+  if (screenshotHeight !== 0) {
+    screenshotsBox.style.display = "block";
+    let progressWidth = videoProgress.getBoundingClientRect().width;
+    let vw = progressWidth / video.duration;
+    let shift = e.clientX - videoProgress.getBoundingClientRect().left;
+    screenshotsBox.style.left = shift - 80 + "px";
+    const hoverTime = Math.floor(shift / vw);
+    let n = Math.floor(hoverTime / 20) + 1;
+    let row = Math.floor(n / 5);
+    if (n % 5 == 0 && row > 0) {
+      row--;
+    }
+    let column = n - row * 5 - 1;
+    if (column === -1) {
+      column = 4;
+    }
+    console.log(column+'-'+row);
+    console.log();
+    screenshotsBox.style.backgroundPositionX = column * 200 + "px";
+    screenshotsBox.style.backgroundPositionY = -( row * screenshotHeight )+ "px";
+  }
+};
+
+videoProgress.addEventListener("click", function (e) {
+  skipAhead(e);
+});
+
+skipAhead = function(e){
+  let progressWidth = videoProgress.getBoundingClientRect().width;
+  let vw = progressWidth / video.duration;
+  let shift = e.clientX - videoProgress.getBoundingClientRect().left;
+  video.currentTime = shift/vw;
+}

@@ -129,7 +129,7 @@ input[type="range"]::-webkit-slider-thumb {
   display: none;
 }
 
-.video-small-box{
+.video-small-box {
   position: fixed;
   z-index: 1;
   width: 350px;
@@ -137,17 +137,26 @@ input[type="range"]::-webkit-slider-thumb {
   background-color: white;
   bottom: 30px;
   right: 25px;
-  border:1px solid rgba(0, 0, 0, 0.62);
+  border: 1px solid rgba(0, 0, 0, 0.62);
 }
 
-.video-small-box .tools{
+.video-small-box .tools {
   display: none;
 }
 
-.video-small-box .controller{
+.video-small-box .controller {
   height: 20px;
 }
 
-.video-small-box #larg-player-icon{
+.video-small-box #larg-player-icon {
   display: block;
+}
+
+.screenshots-box {
+  position: absolute;
+  bottom: 50px;
+  left: 0;
+  width: 200px;
+  background-position: 0 0;
+  display: none;
 }
