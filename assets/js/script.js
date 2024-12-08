@@ -129,6 +129,12 @@ loadMainVideo = function () {
     hls.loadSource("http://localhost/videoplayer/encryption/index.m3u8");
     // hls.loadSource("http://localhost/videoplayer/videos/480/480_out.m3u8");
     hls.attachMedia(video);
+    hls.on(Hls.Events.KEY_LOADED, function (event, data) {
+      const key = "41af8dd17505888fc859301c50fa179c";
+      data.frag.decryptdata.key = new Uint8Array(
+        Array.from(key, (c) => c.charCodeAt(0))
+      );
+    });
     video.play();
   }
   getScreenshotsVideo();
@@ -167,18 +173,16 @@ getImageSize = function (imageUrl, callback) {
 
 videoProgress.addEventListener("mouseenter", function (e) {
   showScreen(e);
-  thumb.style.display = 'block';  
+  thumb.style.display = "block";
 });
 
 videoProgress.addEventListener("mousemove", function (e) {
   showScreen(e);
 });
 
-
 videoProgress.addEventListener("mouseleave", function (e) {
-  if(siwpeThumb == false)
-  {
-    thumb.style.display = 'none';
+  if (siwpeThumb == false) {
+    thumb.style.display = "none";
     screenshotsBox.style.display = "none";
   }
 });
@@ -200,9 +204,9 @@ showScreen = function (e) {
     if (column === -1) {
       column = 4;
     }
-    console.log(column+'-'+row);
+    console.log(column + "-" + row);
     screenshotsBox.style.backgroundPositionX = column * 200 + "px";
-    screenshotsBox.style.backgroundPositionY = -( row * screenshotHeight )+ "px";
+    screenshotsBox.style.backgroundPositionY = -(row * screenshotHeight) + "px";
   }
 };
 
@@ -210,24 +214,23 @@ videoProgress.addEventListener("click", function (e) {
   skipAhead(e);
 });
 
-skipAhead = function(e){
+skipAhead = function (e) {
   let progressWidth = videoProgress.getBoundingClientRect().width;
   let vw = progressWidth / video.duration;
   let shift = e.clientX - videoProgress.getBoundingClientRect().left;
-  video.currentTime = shift/vw;
-}
+  video.currentTime = shift / vw;
+};
 
-thumb.addEventListener('mousedown',function(){
+thumb.addEventListener("mousedown", function () {
   siwpeThumb = true;
 });
 
-window.addEventListener('mouseup',function(){
+window.addEventListener("mouseup", function () {
   siwpeThumb = false;
 });
 
-videoBox.addEventListener('mousemove',function(e){
-  if(siwpeThumb)
-  {
+videoBox.addEventListener("mousemove", function (e) {
+  if (siwpeThumb) {
     skipAhead(e);
   }
 });
