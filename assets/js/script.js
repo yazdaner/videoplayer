@@ -1,5 +1,6 @@
 let showAds = true;
 let screenshotHeight = 0;
+let siwpeThumb = false;
 
 const video = document.getElementById("videoPlayer");
 const playButton = document.getElementById("palyButton");
@@ -14,6 +15,7 @@ const smallPlayer = document.querySelector("#smallPlayer");
 const videoBox = document.querySelector(".video-box");
 const screenshotsBox = document.querySelector(".screenshots-box");
 const videoProgress = document.querySelector(".video-progress");
+const thumb = document.querySelector(".thumb");
 
 const hls = new Hls();
 
@@ -124,7 +126,8 @@ video.onended = function () {
 
 loadMainVideo = function () {
   if (Hls.isSupported()) {
-    hls.loadSource("http://localhost/videoplayer/videos/480/480_out.m3u8");
+    hls.loadSource("http://localhost/videoplayer/encryption/index.m3u8");
+    // hls.loadSource("http://localhost/videoplayer/videos/480/480_out.m3u8");
     hls.attachMedia(video);
     video.play();
   }
@@ -164,10 +167,20 @@ getImageSize = function (imageUrl, callback) {
 
 videoProgress.addEventListener("mouseenter", function (e) {
   showScreen(e);
+  thumb.style.display = 'block';  
 });
 
 videoProgress.addEventListener("mousemove", function (e) {
   showScreen(e);
+});
+
+
+videoProgress.addEventListener("mouseleave", function (e) {
+  if(siwpeThumb == false)
+  {
+    thumb.style.display = 'none';
+    screenshotsBox.style.display = "none";
+  }
 });
 
 showScreen = function (e) {
@@ -188,7 +201,6 @@ showScreen = function (e) {
       column = 4;
     }
     console.log(column+'-'+row);
-    console.log();
     screenshotsBox.style.backgroundPositionX = column * 200 + "px";
     screenshotsBox.style.backgroundPositionY = -( row * screenshotHeight )+ "px";
   }
@@ -204,3 +216,18 @@ skipAhead = function(e){
   let shift = e.clientX - videoProgress.getBoundingClientRect().left;
   video.currentTime = shift/vw;
 }
+
+thumb.addEventListener('mousedown',function(){
+  siwpeThumb = true;
+});
+
+window.addEventListener('mouseup',function(){
+  siwpeThumb = false;
+});
+
+videoBox.addEventListener('mousemove',function(e){
+  if(siwpeThumb)
+  {
+    skipAhead(e);
+  }
+});
